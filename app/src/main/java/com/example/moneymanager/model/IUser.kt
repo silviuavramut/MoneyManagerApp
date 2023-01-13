@@ -1,9 +1,9 @@
 package com.example.moneymanager.model
 
 interface IUser {
-    fun getName(): String?
+    fun getEmail(): String?
 
     fun getPassword(): String?
 
-    fun checkUserValidity(name: String?, password: String?): Int
+    fun getDataFromBackendForUser(user: User)
 }

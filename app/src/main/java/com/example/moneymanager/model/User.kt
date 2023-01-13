@@ -1,27 +1,36 @@
-package com.example.moneymanager.model
+package com.example .moneymanager.model
 
-class User :IUser {
+import android.util.Patterns
+import com.example.moneymanager.model.IUser
+import com.example.moneymanager.presenter.ILoginCallback
 
-    private var name : String? = ""
+class User : IUser {
+
+    private var email : String? = ""
     private var password : String? = ""
+    private var listener : ILoginCallback? = null
 
-    constructor(name: String?, password: String?) {
-        this.name = name
+    constructor(email: String?, password: String?) {
+        this.email = email
         this.password = password
     }
 
-    override fun getName(): String? {
-        return name
+    fun initOnLoginCallback(listener : ILoginCallback){
+        this.listener=listener
+    }
+
+    override fun getDataFromBackendForUser(user: User){
+
+        listener?.onSucces()
+
+    }
+
+    override fun getEmail(): String? {
+        return email
     }
 
     override fun getPassword(): String? {
         return password
     }
 
-    override fun checkUserValidity(name: String?, password: String?): Int {
-        if (name==null||password==null||!name.equals(getName())||!password.equals(getPassword())){
-            return -1;
-        }
-        return 0;
-    }
 }
