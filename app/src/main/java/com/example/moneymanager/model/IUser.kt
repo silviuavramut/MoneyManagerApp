@@ -5,5 +5,11 @@ interface IUser {
 
     fun getPassword(): String?
 
+    fun getFirstName(): String?
+
+    fun getLastName(): String?
+
     fun getDataFromBackendForUser(user: User)
+
+    fun postDataToBackendForUser(user: User)
 }
