@@ -33,7 +33,7 @@ class RegisterActivity : AppCompatActivity(), IRegisterView {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
     }
     override fun Redirect(){
-        val intent = Intent(this, ExpenseActivity::class.java)
+        val intent = Intent(this, NavigationActivity::class.java)
         startActivity(intent)
     }
 }
