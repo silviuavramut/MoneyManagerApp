@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinnerType">
+        <item>Income</item>
+        <item>Expense</item>
+    </string-array>
+    <string-array name="spinnerCategory">
+        <item>Food</item>
+        <item>Salary</item>
+        <item>Allowance</item>
+        <item>Culture</item>
+    </string-array>
+    <string-array name="spinnerAccount">
+        <item>Cash</item>
+        <item>Card</item>
+    </string-array>
+</resources>

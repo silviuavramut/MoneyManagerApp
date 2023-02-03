@@ -1,14 +1,16 @@
 package com.example.moneymanager.presenter
 
+import com.example.moneymanager.model.UserPojo
+
 interface ILoginPresenter {
 
-    fun doLogin(email:String,password:String)
+    fun doLogin(user : UserPojo)
 
 }
 
 interface ILoginCallback{
-    fun onSucces()
-    fun onError()
+    fun onSuccesLogin()
+    fun onErrorLogin()
 
 }
 
