@@ -1,13 +1,11 @@
 package com.example.moneymanager.presenter
 
+import com.example.moneymanager.model.UserPojo
+
 interface IRegisterPresenter {
 
-    fun doRegister(firstname:String,lastname:String,email:String,password:String)
-
-}
-
-interface IRegisterCallback{
-    fun onSucces()
-    fun onError()
+    fun doRegister(userPojo: UserPojo)
+    fun OnSucces()
+    fun onError(message : String)
 
 }

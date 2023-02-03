@@ -8,8 +8,4 @@ interface IUser {
     fun getFirstName(): String?
 
     fun getLastName(): String?
-
-    fun getDataFromBackendForUser(user: User)
-
-    fun postDataToBackendForUser(user: User)
 }

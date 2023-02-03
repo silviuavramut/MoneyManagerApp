@@ -11,40 +11,36 @@
         android:id="@+id/buttonAddExpense"
         android:layout_width="49dp"
         android:layout_height="59dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginBottom="76dp"
         android:text="+"
         android:textSize="24sp"
         app:cornerRadius="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.98"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
-
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="412dp"
-        android:layout_height="559dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ScrollView
+        android:layout_width="377dp"
+        android:layout_height="507dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAddExpense"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.015">
+        app:layout_constraintVertical_bias="0.584">
 
-        <TableRow
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <ListView
+                android:id="@+id/listViewExpenses"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/custom_list_view"/>
+        </LinearLayout>
+    </ScrollView>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
