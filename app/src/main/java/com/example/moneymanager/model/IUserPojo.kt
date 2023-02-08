@@ -1,6 +1,6 @@
 package com.example.moneymanager.model
 
-interface IUser {
+interface IUserPojo {
     fun getEmail(): String?
 
     fun getPassword(): String?

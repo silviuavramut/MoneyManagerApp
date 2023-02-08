@@ -1,14 +1,13 @@
-package com.example .moneymanager.model
+package com.example.moneymanager.model
 
-import com.example.moneymanager.model.IUser
-import com.example.moneymanager.presenter.ILoginCallback
+import com.example.moneymanager.model.IUserPojo
 
-class UserPojo : IUser {
+class UserPojo : IUserPojo {
 
-    private var firstName : String? = ""
-    private var lastName : String? = ""
-    private var email : String? = ""
-    private var password : String? = ""
+    private var firstName: String? = ""
+    private var lastName: String? = ""
+    private var email: String? = ""
+    private var password: String? = ""
 
     constructor(email: String?, password: String?) {
         this.email = email

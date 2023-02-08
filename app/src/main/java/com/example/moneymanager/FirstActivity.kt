@@ -23,6 +23,7 @@ class FirstActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
     override fun onBackPressed() {
         finishAffinity()
     }

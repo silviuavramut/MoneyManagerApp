@@ -1,9 +1,31 @@
 package com.example.moneymanager.presenter
 
+import android.content.Context
+import com.example.moneymanager.model.Expense
+import com.example.moneymanager.model.ExpenseModel
+import com.example.moneymanager.model.ExpensePojo
+import com.example.moneymanager.model.OnExpenseFinishedListener
 import com.example.moneymanager.view.IExpenseView
 
-class ExpensePresenter(internal val iExpenseView: IExpenseView) : IExpensePresenter {
+class ExpensePresenter(private var expenseView: IExpenseView, private val model: ExpenseModel) :
+    IExpensePresenter,
+    OnExpenseFinishedListener {
+    override fun sendExpenseInfo(expense: ExpensePojo, context: Context) {
+        model.getExpenseDataFromPresenter(expense, context)
+        model.expenseAddedInDB(this)
+    }
 
+    override fun getExpenseList(context: Context) : ArrayList<Expense> {
+        return model.getExpenseListFromDB(context)
+    }
+
+    override fun OnResultSucces() {
+        expenseView.redirect()
+    }
+
+    override fun OnResultError() {
+        TODO("Not yet implemented")
+    }
 
 
 }
