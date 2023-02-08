@@ -1,7 +1,6 @@
 package com.example.moneymanager.view
 
-public interface ILoginView {
-    fun showToastMessage(message: String)
+interface ILoginView {
     fun Redirect()
-
+    fun showMessage(message : String)
 }

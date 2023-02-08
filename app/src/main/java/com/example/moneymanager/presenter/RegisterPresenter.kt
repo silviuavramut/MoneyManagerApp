@@ -1,19 +1,32 @@
 package com.example.moneymanager.presenter
 
+import android.content.Context
+import com.example.moneymanager.model.RegisterModel
+import com.example.moneymanager.model.OnRegisterFinishedListener
 import com.example.moneymanager.model.UserPojo
 import com.example.moneymanager.view.IRegisterView
 
-class RegisterPresenter (val iRegisterView:IRegisterView) :IRegisterPresenter {
+class RegisterPresenter(private var registerView: IRegisterView, private val model: RegisterModel) :
+    IRegisterPresenter,
+    OnRegisterFinishedListener {
 
-    override fun doRegister(userPojo: UserPojo) {
+
+    override fun sendUserInfo(user: UserPojo, context: Context) {
+        model.getUserDataFromPresenter(user, context)
+        model.userAddedInDB(this)
     }
 
-    override fun OnSucces() {
-        TODO("Not yet implemented")
+    override fun checkIfUserExists(userEmail: String, context: Context): Boolean {
+        return model.checkUserEmail(userEmail, context)
     }
 
-    override fun onError(message: String) {
-        TODO("Not yet implemented")
+
+    override fun OnResultSucces() {
+        registerView.redirect()
+    }
+
+    override fun OnResultError() {
+        registerView.showMessage("error")
     }
 
 }

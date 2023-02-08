@@ -9,7 +9,8 @@ import com.example.moneymanager.view.INavigationView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class NavigationActivity : AppCompatActivity(), INavigationView, BottomNavigationView.OnNavigationItemSelectedListener {
+class NavigationActivity : AppCompatActivity(), INavigationView,
+    BottomNavigationView.OnNavigationItemSelectedListener {
 
 
     private lateinit var iNavigationView: INavigationView
@@ -38,7 +39,8 @@ class NavigationActivity : AppCompatActivity(), INavigationView, BottomNavigatio
     fun loadFragment(fragment: Fragment?) {
         //to attach fragment
         if (fragment != null) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragmentLayout, fragment).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragmentLayout, fragment)
+                .commit()
         }
     }
 
@@ -46,8 +48,9 @@ class NavigationActivity : AppCompatActivity(), INavigationView, BottomNavigatio
 
 
     }
-    fun showToast(msg : String){
-        Toast.makeText(this,msg, Toast.LENGTH_SHORT).show()
+
+    fun showToast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
 

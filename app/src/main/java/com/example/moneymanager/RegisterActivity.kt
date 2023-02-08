@@ -6,56 +6,52 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.example.moneymanager.model.User
+import com.example.moneymanager.model.RegisterModel
 import com.example.moneymanager.model.UserPojo
 import com.example.moneymanager.presenter.RegisterPresenter
 import com.example.moneymanager.sqlite.DBHelper
 import com.example.moneymanager.view.IRegisterView
 
 class RegisterActivity : AppCompatActivity(), IRegisterView {
-    lateinit var usersDBHelper: DBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        usersDBHelper= DBHelper(this)
+        val registerPresenter = RegisterPresenter(this, RegisterModel())
         val editFirstName = findViewById<EditText>(R.id.editTextFirstName)
         val editLastName = findViewById<EditText>(R.id.editTextLastName)
         val editEmail = findViewById<EditText>(R.id.editTextEmail2)
         val editPassword = findViewById<EditText>(R.id.editTextPassword2)
         val buttonRegister = findViewById<Button>(R.id.buttonRegister1)
 
-
         buttonRegister.setOnClickListener {
 
-            if(usersDBHelper.checkifUserExists(editEmail.text.toString())){
+            if (registerPresenter.checkIfUserExists(editEmail.text.toString(), this)) {
                 Toast.makeText(this, "email already used", Toast.LENGTH_LONG).show()
-            }
-            else {
-
-                var result = usersDBHelper.insertUser(
-                    User(
-                        firstName = editFirstName.text.toString(),
-                        lastName = editLastName.text.toString(),
-                        email = editEmail.text.toString(),
-                        password = editPassword.text.toString()
-                    )
+            } else {
+                registerPresenter.sendUserInfo(
+                    UserPojo(
+                        editFirstName.text.toString(),
+                        editLastName.text.toString(),
+                        editEmail.text.toString(),
+                        editPassword.text.toString()
+                    ), this
                 )
-                Toast.makeText(this, "succes", Toast.LENGTH_LONG).show()
-                val Intent = Intent(this, LoginActivity::class.java)
-                startActivity(Intent)
-                finish()
             }
 
         }
     }
 
-    override fun showToastMessage(message: String) {
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
-    }
-    override fun Redirect(){
-        val intent = Intent(this, NavigationActivity::class.java)
+    override fun redirect() {
+        Toast.makeText(this, "success", Toast.LENGTH_LONG).show()
+        val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
+        finish()
     }
+
+    override fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
 }

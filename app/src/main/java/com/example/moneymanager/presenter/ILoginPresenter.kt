@@ -1,16 +1,8 @@
 package com.example.moneymanager.presenter
 
+import android.content.Context
 import com.example.moneymanager.model.UserPojo
 
 interface ILoginPresenter {
-
-    fun doLogin(user : UserPojo)
-
+    fun sendUserInfoForLogin(user: UserPojo, context: Context)
 }
-
-interface ILoginCallback{
-    fun onSuccesLogin()
-    fun onErrorLogin()
-
-}
-
