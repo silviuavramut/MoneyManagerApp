@@ -21,7 +21,7 @@ class SettingsFragment : Fragment() {
     ): View? {
 
         val view: View = inflater.inflate(R.layout.fragment_settings, container, false)
-        val button = view.findViewById<Button>(R.id.buttonLogout)
+        val button = view.findViewById<Button>(R.id.buttonAddExpense2)
 
         button.setOnClickListener {
 

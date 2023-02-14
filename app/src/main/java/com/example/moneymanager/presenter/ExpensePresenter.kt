@@ -19,6 +19,16 @@ class ExpensePresenter(private var expenseView: IExpenseView, private val model:
         return model.getExpenseListFromDB(context)
     }
 
+    override fun deleteExpense(expenseID: String, context: Context) {
+        model.deleteExpense(expenseID,context)
+        model.expenseDeletedFromDB(this)
+    }
+
+    override fun updateExpense(expense: Expense, context: Context) {
+        model.updateExpenseInDB(expense,context)
+        model.expenseUpdatedInDB(this)
+    }
+
     override fun OnResultSucces() {
         expenseView.redirect()
     }

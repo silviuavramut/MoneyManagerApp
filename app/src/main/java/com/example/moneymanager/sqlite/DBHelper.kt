@@ -2,7 +2,6 @@ package com.example.moneymanager.sqlite
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -61,6 +60,21 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         return true
     }
 
+    fun updateExpense(expense: Expense): Boolean {
+        val db = writableDatabase
+        val values = ContentValues()
+        values.put(EXPENSE_ID, expense.id)
+        values.put(EXPENSE_TYPE, expense.type)
+        values.put(EXPENSE_DATE, expense.date)
+        values.put(EXPENSE_ACCOUNT, expense.account)
+        values.put(EXPENSE_CATEGORY, expense.category)
+        values.put(EXPENSE_AMOUNT, expense.amount)
+        values.put(EXPENSE_NOTE, expense.note)
+        db.update(TABLE_NAME2, values, "EXPENSE_ID = ?", arrayOf(expense.id.toString()))
+        db.close()
+        return true
+    }
+
     @Throws(SQLiteConstraintException::class)
     fun deleteUser(userid: String): Boolean {
 // Gets the data repository in write mode
@@ -71,6 +85,16 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         val selectionArgs = arrayOf(userid)
 // Issue SQL statement.
         db.delete(TABLE_NAME, selection, selectionArgs)
+        return true
+    }
+    @Throws(SQLiteConstraintException::class)
+    fun deleteExpense(expenseId: String): Boolean {
+// Gets the data repository in write mode
+        val db = writableDatabase
+// Define 'where' part of query.
+        val selection = EXPENSE_ID + "=" + expenseId
+// Issue SQL statement.
+        db.delete(TABLE_NAME2, selection, null)
         return true
     }
     /**
@@ -209,7 +233,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     fun getAllExpense(): ArrayList <Expense>{
 
         // array of columns to fetch
-        val columns = arrayOf(EXPENSE_TYPE, EXPENSE_DATE, EXPENSE_ACCOUNT, EXPENSE_CATEGORY,
+        val columns = arrayOf(EXPENSE_ID,EXPENSE_TYPE, EXPENSE_DATE, EXPENSE_ACCOUNT, EXPENSE_CATEGORY,
             EXPENSE_AMOUNT, EXPENSE_NOTE)
 
         // sorting orders
@@ -231,6 +255,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         if (cursor.moveToFirst()) {
             do {
                 val expense = Expense(
+                    id = cursor.getInt(cursor.getColumnIndexOrThrow(EXPENSE_ID)),
                     type = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_TYPE)),
                     date = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_DATE)),
                     account = cursor.getString(cursor.getColumnIndexOrThrow(EXPENSE_ACCOUNT)),

@@ -1,11 +1,13 @@
 package com.example.moneymanager
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import com.example.moneymanager.model.Expense
 import com.example.moneymanager.model.ExpenseModel
@@ -18,11 +20,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class ExpenseFragment : Fragment(), IExpenseView {
-    
-    lateinit var list: ListView
-    lateinit var expenseDBArrayList: ArrayList<Expense>
-    lateinit var expensePojoArrayList: ArrayList<ExpensePojo>
 
+    private lateinit var list: ListView
+    private lateinit var expenseDBArrayList: ArrayList<Expense>
+    private lateinit var expensePojoArrayList: ArrayList<ExpensePojo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -55,6 +56,28 @@ class ExpenseFragment : Fragment(), IExpenseView {
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         list = view.findViewById<ListView>(R.id.listViewExpenses)
         list.adapter = CustomListAdapter(requireActivity(), expensePojoArrayList)
+        list.isClickable=true
+        list.setOnItemClickListener { parent, view, position, id ->
+
+            val id = expenseDBArrayList[position].id
+            val type = expenseDBArrayList[position].type
+            val date = expenseDBArrayList[position].date
+            val account = expenseDBArrayList[position].account
+            val category = expenseDBArrayList[position].category
+            val amount = expenseDBArrayList[position].amount
+            val note = expenseDBArrayList[position].note
+
+            val i = Intent(requireContext(),ExpenseDetailActivity::class.java)
+            i.putExtra("id",id)
+            i.putExtra("type",type)
+            i.putExtra("date",date)
+            i.putExtra("account",account)
+            i.putExtra("category",category)
+            i.putExtra("amount",amount)
+            i.putExtra("note",note)
+            startActivity(i)
+
+        }
 
         button.setOnClickListener {
             bottomNav.visibility = View.GONE

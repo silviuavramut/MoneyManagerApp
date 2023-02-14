@@ -1,6 +1,6 @@
 package com.example.moneymanager.model
 
-class Expense(val id: Int = -1,
+class Expense(val id: Int ,
               val type: String,
               val date: String,
               val account: String,
