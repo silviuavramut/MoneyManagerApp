@@ -10,13 +10,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
-import com.example.moneymanager.model.Expense
 import com.example.moneymanager.model.ExpenseModel
 import com.example.moneymanager.model.ExpensePojo
-import com.example.moneymanager.model.LoginModel
 import com.example.moneymanager.presenter.ExpensePresenter
-import com.example.moneymanager.presenter.LoginPresenter
-import com.example.moneymanager.sqlite.DBHelper
 import com.example.moneymanager.view.IExpenseView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -33,13 +29,13 @@ class AddExpenseFragment : Fragment(), IExpenseView {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_add_expense, container, false)
-        var dateEdt = view.findViewById<EditText>(R.id.editTextDate2)
+        val dateEdt = view.findViewById<EditText>(R.id.editTextDate2)
         val sType = view.findViewById<Spinner>(R.id.spinnerType)
         val sAccount = view.findViewById<Spinner>(R.id.spinnerAccount)
         val sCategory = view.findViewById<Spinner>(R.id.spinnerCategory)
         val eAmount = view.findViewById<EditText>(R.id.editTextAmount)
         val eNote = view.findViewById<EditText>(R.id.editTextNote)
-        val saveButton = view.findViewById<Button>(R.id.buttonLogout)
+        val saveButton = view.findViewById<Button>(R.id.buttonAddExpense2)
         val bottomNav =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val expensePresenter = ExpensePresenter(this, ExpenseModel())

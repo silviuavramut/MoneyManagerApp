@@ -9,6 +9,7 @@ class ExpenseModel : IExpenseModel {
         expenseDBHelper = DBHelper(context)
         expenseDBHelper.insertExpense(
             Expense(
+                id = -1,
                 type = expense.getType().toString(),
                 date = expense.getDate().toString(),
                 account = expense.getAccount().toString(),
@@ -25,6 +26,24 @@ class ExpenseModel : IExpenseModel {
     }
 
     override fun expenseAddedInDB(onFinishedListener: OnExpenseFinishedListener) {
+        onFinishedListener.OnResultSucces()
+    }
+
+    override fun deleteExpense(expenseID: String, context: Context) {
+        expenseDBHelper = DBHelper(context)
+        expenseDBHelper.deleteExpense(expenseID)
+    }
+
+    override fun expenseDeletedFromDB(onFinishedListener: OnExpenseFinishedListener) {
+        onFinishedListener.OnResultSucces()
+    }
+
+    override fun updateExpenseInDB(expense: Expense, context: Context) {
+        expenseDBHelper = DBHelper(context)
+        expenseDBHelper.updateExpense(expense)
+    }
+
+    override fun expenseUpdatedInDB(onFinishedListener: OnExpenseFinishedListener) {
         onFinishedListener.OnResultSucces()
     }
 }
