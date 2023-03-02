@@ -1,17 +1,43 @@
 package com.example.moneymanager
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
+import com.example.moneymanager.model.Expense
+import com.example.moneymanager.model.ExpenseModel
+import com.example.moneymanager.model.ExpensePojo
+import com.example.moneymanager.presenter.ExpensePresenter
+import com.example.moneymanager.view.IExpenseView
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.utils.MPPointF
 
 
-class StatsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+class StatsFragment : Fragment(), IExpenseView {
+    private lateinit var expenseDBArrayList: ArrayList<Expense>
+    private var foodCat = 0
+    private var salaryCat = 0
+    private var allowanceCat = 0
+    private var cultureCat = 0
+    lateinit var pieChart: PieChart
+    private val entries: ArrayList<PieEntry> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val expensePresenter = ExpensePresenter(this, ExpenseModel())
+        expenseDBArrayList = expensePresenter.getExpenseList(requireContext())
 
     }
 
@@ -19,8 +45,180 @@ class StatsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_stats, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_stats, container, false)
+        pieChart = view.findViewById<PieChart>(R.id.pieChart)
+        val radioGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
+
+        // on below line we are setting user percent value,
+        // setting description as enabled and offset for pie chart
+        pieChart.setUsePercentValues(true)
+        pieChart.getDescription().setEnabled(false)
+        pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
+
+        // on below line we are setting drag for our pie chart
+        pieChart.setDragDecelerationFrictionCoef(0.95f)
+
+        // on below line we are setting hole
+        // and hole color for pie chart
+        pieChart.setDrawHoleEnabled(true)
+        pieChart.setHoleColor(Color.WHITE)
+
+        // on below line we are setting circle color and alpha
+        pieChart.setTransparentCircleColor(Color.WHITE)
+        pieChart.setTransparentCircleAlpha(110)
+
+        // on  below line we are setting hole radius
+        pieChart.setHoleRadius(58f)
+        pieChart.setTransparentCircleRadius(61f)
+
+        // on below line we are setting center text
+        pieChart.setDrawCenterText(true)
+
+        // on below line we are setting
+        // rotation for our pie chart
+        pieChart.setRotationAngle(0f)
+
+        // enable rotation of the pieChart by touch
+        pieChart.setRotationEnabled(true)
+        pieChart.setHighlightPerTapEnabled(true)
+
+        // on below line we are setting animation for our pie chart
+        pieChart.animateY(1400, Easing.EaseInOutQuad)
+
+        // on below line we are disabling our legend for pie chart
+        pieChart.legend.isEnabled = true
+        pieChart.setEntryLabelColor(Color.WHITE)
+        pieChart.setEntryLabelTextSize(12f)
+
+        // on below line we are creating array list and
+        // adding data to it to display in pie chart
+        for (i in 0 until expenseDBArrayList.size) {
+            if (expenseDBArrayList[i].type == "Income") {
+                if (expenseDBArrayList[i].category == "Food") {
+                    foodCat += expenseDBArrayList[i].amount.toInt()
+                }
+                if (expenseDBArrayList[i].category == "Salary") {
+                    salaryCat += expenseDBArrayList[i].amount.toInt()
+                }
+                if (expenseDBArrayList[i].category == "Allowance") {
+                    allowanceCat += expenseDBArrayList[i].amount.toInt()
+                }
+                if (expenseDBArrayList[i].category == "Culture") {
+                    cultureCat += expenseDBArrayList[i].amount.toInt()
+                }
+            }
+        }
+        setupPieChart()
+
+
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            if (R.id.radioIncome == checkedId) {
+                foodCat = 0
+                salaryCat = 0
+                allowanceCat = 0
+                cultureCat = 0
+                entries.clear()
+                for (i in 0 until expenseDBArrayList.size) {
+                    if (expenseDBArrayList[i].type == "Income") {
+                        if (expenseDBArrayList[i].category == "Food") {
+                            foodCat += expenseDBArrayList[i].amount.toInt()
+                        }
+                        if (expenseDBArrayList[i].category == "Salary") {
+                            salaryCat += expenseDBArrayList[i].amount.toInt()
+                        }
+                        if (expenseDBArrayList[i].category == "Allowance") {
+                            allowanceCat += expenseDBArrayList[i].amount.toInt()
+                        }
+                        if (expenseDBArrayList[i].category == "Culture") {
+                            cultureCat += expenseDBArrayList[i].amount.toInt()
+                        }
+                    }
+                }
+                setupPieChart()
+            }
+            if (R.id.radioExpense == checkedId) {
+                foodCat = 0
+                salaryCat = 0
+                allowanceCat = 0
+                cultureCat = 0
+                entries.clear()
+                for (i in 0 until expenseDBArrayList.size) {
+                    if (expenseDBArrayList[i].type == "Expense") {
+                        if (expenseDBArrayList[i].category == "Food") {
+                            foodCat += expenseDBArrayList[i].amount.toInt()
+                        }
+                        if (expenseDBArrayList[i].category == "Salary") {
+                            salaryCat += expenseDBArrayList[i].amount.toInt()
+                        }
+                        if (expenseDBArrayList[i].category == "Allowance") {
+                            allowanceCat += expenseDBArrayList[i].amount.toInt()
+                        }
+                        if (expenseDBArrayList[i].category == "Culture") {
+                            cultureCat += expenseDBArrayList[i].amount.toInt()
+                        }
+                    }
+                }
+                setupPieChart()
+
+            }
+
+        }
+
+        return view
     }
+
+    override fun redirect() {
+        TODO("Not yet implemented")
+    }
+
+    fun setupPieChart() {
+        if (foodCat > 0) {
+            entries.add(PieEntry(foodCat.toFloat(), "Food"))
+        }
+        if (salaryCat > 0) {
+            entries.add(PieEntry(salaryCat.toFloat(), "Salary"))
+        }
+        if (allowanceCat > 0) {
+            entries.add(PieEntry(allowanceCat.toFloat(), "Allowance"))
+        }
+        if (cultureCat > 0) {
+            entries.add(PieEntry(cultureCat.toFloat(), "Culture"))
+        }
+        // on below line we are setting pie data set
+        val dataSet = PieDataSet(entries, "")
+
+        // on below line we are setting icons.
+        dataSet.setDrawIcons(false)
+
+        // on below line we are setting slice for pie
+        dataSet.sliceSpace = 3f
+        dataSet.iconsOffset = MPPointF(0f, 40f)
+        dataSet.selectionShift = 5f
+
+        // add a lot of colors to list
+        val colors: ArrayList<Int> = ArrayList()
+        colors.add(resources.getColor(R.color.purple_200))
+        colors.add(resources.getColor(R.color.yellow))
+        colors.add(resources.getColor(R.color.red))
+        colors.add(resources.getColor(R.color.orange))
+
+        // on below line we are setting colors.
+        dataSet.colors = colors
+
+        // on below line we are setting pie data set
+        val data = PieData(dataSet)
+        data.setValueFormatter(PercentFormatter())
+        data.setValueTextSize(15f)
+        data.setValueTypeface(Typeface.DEFAULT_BOLD)
+        data.setValueTextColor(Color.WHITE)
+        pieChart.setData(data)
+
+        // undo all highlights
+        pieChart.highlightValues(null)
+
+        // loading chart
+        pieChart.invalidate()
+    }
+
 
 }
